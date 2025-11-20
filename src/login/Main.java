@@ -101,11 +101,17 @@ public class Main {
                     }
                     JOptionPane.showMessageDialog(null, "Total messages sent: " + Message.returnTotalMessages());
                 }
-                case "2" -> JOptionPane.showMessageDialog(null, "Coming Soon.");
+
+                // ✔️ ONLY CHANGE → this now calls showRecentMessages()
+                case "2" -> {
+                    JOptionPane.showMessageDialog(null, Message.showRecentMessages());
+                }
+
                 case "3" -> {
                     JOptionPane.showMessageDialog(null, "Goodbye!");
                     return;
                 }
+
                 default -> JOptionPane.showMessageDialog(null, "Invalid option, try again.");
             }
         }
