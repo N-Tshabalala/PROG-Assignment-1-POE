@@ -21,6 +21,10 @@ public class MessageManager {
     public int $idCount = 0;
 
     private final String $jsonFile = "messages.json";
+    Iterable<String> storedMessages;
+    String[] messageIDs;
+    String[] messageHashes;
+    
 
     // Message add and populate parallel arrays 
     public void addMessage(String $recipient, String $messageText, String $flag) {
