@@ -6,7 +6,7 @@ public class Main {
     public static void main(String[] args) {
         Login $login = new Login();
 
-        // USERNAME PROMPT (loop until valid)
+        // USERNAME PROMPT 
         String $username;
         do {
             $username = JOptionPane.showInputDialog("""
@@ -20,7 +20,7 @@ public class Main {
             }
         } while (!$login.checkUserName($username));
 
-        // PASSWORD PROMPT (loop until valid)
+        // PASSWORD PROMPT 
         String $password;
         do {
             $password = JOptionPane.showInputDialog("""
@@ -34,7 +34,7 @@ public class Main {
             }
         } while (!$login.checkPasswordComplexity($password));
 
-        // CELL NUMBER PROMPT (loop until valid)
+        // CELL NUMBER PROMPT 
         String $cell;
         do {
             $cell = JOptionPane.showInputDialog("""
@@ -102,7 +102,7 @@ public class Main {
                     JOptionPane.showMessageDialog(null, "Total messages sent: " + Message.returnTotalMessages());
                 }
 
-                // ✔️ ONLY CHANGE → this now calls showRecentMessages()
+                // calls showRecentMessages()
                 case "2" -> {
                     JOptionPane.showMessageDialog(null, Message.showRecentMessages());
                 }

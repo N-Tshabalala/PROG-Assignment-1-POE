@@ -9,17 +9,32 @@ package login;
  * @author RC_Student_lab
  */
 
+import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Test;
 import static org.junit.Assert.*;
 import org.junit.Before;
+import org.junit.BeforeClass;
 
 public class LoginTest {
 
     private Login $login;
 
+    @BeforeClass
+    public static void setUpClass() throws Exception {
+    }
+
+    @AfterClass
+    public static void tearDownClass() throws Exception {
+    }
+
     @Before
     public void setup() {
         $login = new Login();
+    }
+
+    @After
+    public void tearDown() throws Exception {
     }
 
     @Test
@@ -117,6 +132,140 @@ public class LoginTest {
     @Test
     public void cellPhoneNumberIncorrectlyFormatted_returnsFalseFromChecker() {
         assertFalse($login.checkCellPhoneNumber("08966553"));
+    }
+
+    /**
+     * Test of checkUserName method, of class Login.
+     */
+    @Test
+    public void testCheckUserName() {
+        System.out.println("checkUserName");
+        String $username = "";
+        Login instance = new Login();
+        boolean expResult = false;
+        boolean result = instance.checkUserName($username);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of checkPasswordComplexity method, of class Login.
+     */
+    @Test
+    public void testCheckPasswordComplexity() {
+        System.out.println("checkPasswordComplexity");
+        String $password = "";
+        Login instance = new Login();
+        boolean expResult = false;
+        boolean result = instance.checkPasswordComplexity($password);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of checkCellPhoneNumber method, of class Login.
+     */
+    @Test
+    public void testCheckCellPhoneNumber() {
+        System.out.println("checkCellPhoneNumber");
+        String $cellNumber = "";
+        Login instance = new Login();
+        boolean expResult = false;
+        boolean result = instance.checkCellPhoneNumber($cellNumber);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of registerUser method, of class Login.
+     */
+    @Test
+    public void testRegisterUser() {
+        System.out.println("registerUser");
+        String $username = "";
+        String $password = "";
+        String $cellNumber = "";
+        Login instance = new Login();
+        String expResult = "";
+        String result = instance.registerUser($username, $password, $cellNumber);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of loginUser method, of class Login.
+     */
+    @Test
+    public void testLoginUser() {
+        System.out.println("loginUser");
+        String $username = "";
+        String $password = "";
+        Login instance = new Login();
+        boolean expResult = false;
+        boolean result = instance.loginUser($username, $password);
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of returnLoginStatus method, of class Login.
+     */
+    @Test
+    public void testReturnLoginStatus() {
+        System.out.println("returnLoginStatus");
+        Login instance = new Login();
+        String expResult = "";
+        String result = instance.returnLoginStatus();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getRegisteredUsername method, of class Login.
+     */
+    @Test
+    public void testGetRegisteredUsername() {
+        System.out.println("getRegisteredUsername");
+        Login instance = new Login();
+        String expResult = "";
+        String result = instance.getRegisteredUsername();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getRegisteredPassword method, of class Login.
+     */
+    @Test
+    public void testGetRegisteredPassword() {
+        System.out.println("getRegisteredPassword");
+        Login instance = new Login();
+        String expResult = "";
+        String result = instance.getRegisteredPassword();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
+    }
+
+    /**
+     * Test of getRegisteredCellNumber method, of class Login.
+     */
+    @Test
+    public void testGetRegisteredCellNumber() {
+        System.out.println("getRegisteredCellNumber");
+        Login instance = new Login();
+        String expResult = "";
+        String result = instance.getRegisteredCellNumber();
+        assertEquals(expResult, result);
+        // TODO review the generated test code and remove the default call to fail.
+        fail("The test case is a prototype.");
     }
 }
 

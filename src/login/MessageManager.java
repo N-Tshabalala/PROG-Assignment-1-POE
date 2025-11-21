@@ -2,13 +2,7 @@ package login;
 
 import java.io.IOException;
 
-/**
- * MessageManager manages arrays required by Part 3:
- * - sentMessages, disregardedMessages, storedMessages (texts)
- * - messageHashes, messageIDs, recipients (parallel arrays)
- *
- * Arrays capacity = 100 (as per rubric).
- */
+
 public class MessageManager {
 
     public static final int CAP = 100;
@@ -18,7 +12,7 @@ public class MessageManager {
 
     public String[] $messageHashes = new String[CAP];
     public String[] $messageIDs = new String[CAP];
-    public String[] $recipients = new String[CAP]; // parallel to sent/stored arrays for tracking
+    public String[] $recipients = new String[CAP]; //sent/stored arrays for tracking
 
     public int $sentCount = 0;
     public int $disregardedCount = 0;
@@ -28,17 +22,17 @@ public class MessageManager {
 
     private final String $jsonFile = "messages.json";
 
-    // Add a message and populate parallel arrays (keeps simple mapping by index)
+    // Message add and populate parallel arrays 
     public void addMessage(String $recipient, String $messageText, String $flag) {
-        // index for hash will be current total messages (for hash creation)
+         
         int $indexForHash = $sentCount + $storedCount + $disregardedCount;
         Message $m = new Message($recipient, $messageText, $flag, $indexForHash);
 
-        // store ID & hash in arrays
+        // store ID and hash in arrays
         if ($idCount < CAP) $messageIDs[$idCount++] = $m.$messageID;
         if ($hashCount < CAP) $messageHashes[$hashCount++] = $m.$messageHash;
 
-        // store text + recipient in appropriate arrays, and store recipient index for mapping
+        // store text + recipient in appropriate arrays
         if ($flag.equalsIgnoreCase("Sent")) {
             if ($sentCount < CAP) {
                 $sentMessages[$sentCount] = $m.$messageText;
@@ -48,13 +42,13 @@ public class MessageManager {
         } else if ($flag.equalsIgnoreCase("Disregard") || $flag.equalsIgnoreCase("Disregarded")) {
             if ($disregardedCount < CAP) {
                 $disregardedMessages[$disregardedCount] = $m.$messageText;
-                $recipients[$sentCount + $disregardedCount] = $recipient; // best-effort mapping
+                $recipients[$sentCount + $disregardedCount] = $recipient; 
                 $disregardedCount++;
             }
         } else if ($flag.equalsIgnoreCase("Stored")) {
             if ($storedCount < CAP) {
                 $storedMessages[$storedCount] = $m.$messageText;
-                // stored items we append recipient mapping after sent indexes
+                
                 $recipients[$sentCount + $disregardedCount + $storedCount] = $recipient;
                 $storedCount++;
             }
@@ -63,8 +57,8 @@ public class MessageManager {
         }
     }
 
-    // a) Display sender and recipient of all sent messages
-    // Returns array of strings like "Developer -> <recipient> : <message>"
+    // Display sender and recipient of all sent messages
+   
     public String[] getSentSenderRecipient() {
         String[] $out = new String[$sentCount];
         for (int i = 0; i < $sentCount; i++) {
@@ -74,7 +68,7 @@ public class MessageManager {
         return $out;
     }
 
-    // b) Display the longest sent message (by character length) across sentMessages
+    // Display the longest sent message 
     public String getLongestSentMessage() {
         String $longest = "";
         for (int i = 0; i < $sentCount; i++) {
@@ -85,7 +79,7 @@ public class MessageManager {
         return $longest;
     }
 
-    // c) Search for message ID and return corresponding recipient and message (if found)
+    // Search for message ID and return recipient and message 
     public String searchByMessageID(String $id) {
         for (int i = 0; i < $idCount; i++) {
             if ($messageIDs[i] != null && $messageIDs[i].equals($id)) {
@@ -135,7 +129,7 @@ public class MessageManager {
         return $list.toArray(new String[0]);
     }
 
-    // e) Delete a message using message hash (returns true when deletion succeeded)
+    // Delete a message using message hash (returns true when deletion succeeded)
     public boolean deleteByHash(String $hash) {
         // find hash in messageHashes array
         for (int i = 0; i < $hashCount; i++) {
@@ -151,7 +145,7 @@ public class MessageManager {
                     // also remove from stored JSON file by rewriting without that ID
                     removeIdFromJson($idToDelete);
                 }
-                // remove from text arrays if found there (search sent/disregarded/stored)
+                // remove from text arrays if found there 
                 for (int s = 0; s < $sentCount; s++) {
                     if ($sentMessages[s] != null && createHashFromMessageIndex(s).equals($hash)) {
                         removeIndex($sentMessages, s, $sentCount);
@@ -165,12 +159,12 @@ public class MessageManager {
                     int $idx = $sentCount + d;
                     if (createHashFromMessageIndex($idx).equals($hash)) {
                         removeIndex($disregardedMessages, d, $disregardedCount);
-                        removeIndex($recipients, $idx, $sentCount + $disregardedCount); // shift recipients area
+                        removeIndex($recipients, $idx, $sentCount + $disregardedCount); 
                         $disregardedCount--;
                         return true;
                     }
                 }
-                // check stored (in-memory)
+                // check stored in-memory
                 for (int st = 0; st < $storedCount; st++) {
                     int $idx = $sentCount + $disregardedCount + st;
                     if (createHashFromMessageIndex($idx).equals($hash)) {
@@ -193,7 +187,7 @@ public class MessageManager {
         for (int i = $idx; i < countSafe(countMinusOne(count)); i++) {
             if (i + 1 < $arr.length) $arr[i] = $arr[i + 1];
         }
-        // null out last
+        
         if (countSafe(countMinusOne(count)) < $arr.length) $arr[countSafe(countMinusOne(count))] = null;
     }
     private int countMinusOne(int c) { return c - 1; }
@@ -207,13 +201,13 @@ public class MessageManager {
             String $line;
             while (($line = $br.readLine()) != null) {
                 if ($line.contains("\"MessageID\":\"" + $idToDelete + "\"")) {
-                    // skip
+                    
                 } else {
                     $lines.add($line);
                 }
             }
         } catch (IOException e) {
-            // file may not exist
+            
         }
         // rewrite file
         try (java.io.FileWriter $fw = new java.io.FileWriter($jsonFile, false)) {
@@ -224,7 +218,7 @@ public class MessageManager {
         } catch (IOException ex) {}
     }
 
-    // f) Display a report listing Hash, Recipient, Message
+    // Display a report listing Hash, Recipient, Message
     public String displayReport() {
         StringBuilder $sb = new StringBuilder();
         // sent messages
@@ -244,10 +238,10 @@ public class MessageManager {
         return $sb.toString();
     }
 
-    // helper to build the same hash string for an index if possible (best-effort)
+    // helper to build the same hash string for an index 
     private String createHashFromMessageIndex(int $globalIndex) {
         if ($globalIndex < $hashCount && $messageHashes[$globalIndex] != null) return $messageHashes[$globalIndex];
-        // fallback: compose something if id present
+        
         if ($globalIndex < $idCount && $messageIDs[$globalIndex] != null) {
             String $id = $messageIDs[$globalIndex];
             String $firstTwo = $id.length() >= 2 ? $id.substring(0,2) : "00";
@@ -264,7 +258,7 @@ public class MessageManager {
         return "N/A";
     }
 
-    // Clear arrays and JSON file (helper for tests)
+    // Clear arrays and JSON file 
     public void resetAll() {
         for (int i=0;i<CAP;i++) {
             $sentMessages[i] = null;
@@ -277,7 +271,7 @@ public class MessageManager {
         $sentCount = $disregardedCount = $storedCount = $hashCount = $idCount = 0;
         // clear JSON file content
         try (java.io.FileWriter $fw = new java.io.FileWriter($jsonFile, false)) {
-            // overwrite with empty file
+            
         } catch (IOException ex) {}
     }
 }

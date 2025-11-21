@@ -4,10 +4,6 @@
  */
 package login;
 
-/**
- *
- * @author RC_Student_lab
- */
 
 public class Login {
 

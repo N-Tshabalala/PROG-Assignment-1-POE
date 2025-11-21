@@ -7,10 +7,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
 
-/**
- * Simple Message model.
- * Stores id, recipient, text, hash, and flag.
- */
+
 public class Message {
 
     // Static counter for total sent messages
@@ -31,13 +28,13 @@ public class Message {
         this.$messageHash = createMessageHash($indexForHash);
     }
 
-    // Constructor for sending a message (default flag "Sent")
+    // Constructor for sending a message 
     public Message(String $recipient, String $msg) {
         this.$recipient = $recipient;
         this.$messageText = $msg;
         this.$flag = "Sent";
         this.$messageID = generateMessageID();
-        this.$messageHash = createMessageHash(0); // simple index for hash
+        this.$messageHash = createMessageHash(0);
     }
 
     // Generate random 10-digit numeric ID as string
@@ -47,7 +44,7 @@ public class Message {
         return String.format("%010d", $num);
     }
 
-    // Create message hash: first two digits of ID : index : first+last words uppercased
+    // Create message hash
     public String createMessageHash(int $indexForHash) {
         String $idPart = ($messageID != null && $messageID.length() >= 2) ? $messageID.substring(0, 2) : "00";
         String $first = "";
@@ -69,7 +66,7 @@ public class Message {
         }
     }
 
-    // Simulate sending message (increment static counter)
+    // Simulate sending message 
     public void sendMessage() {
         totalMessagesSent++;
     }
@@ -84,7 +81,7 @@ public class Message {
         return "Feature coming soon";
     }
 
-    // Optional: store message to JSON file
+    // store message to JSON file
     public void storeToJSON(String $filename) {
         String $line = "{\"MessageID\":\"" + escape($messageID) + "\"," +
                         "\"Recipient\":\"" + escape($recipient) + "\"," +
@@ -104,7 +101,7 @@ public class Message {
         return s.replace("\\", "\\\\").replace("\"", "\\\"");
     }
 
-    // Read stored messages from JSON file (simplified)
+    // Read stored messages from JSON file 
     public static Message[] readStoredFromJSON(String $filename) {
         ArrayList<Message> $list = new ArrayList<>();
         try (BufferedReader $br = new BufferedReader(new FileReader($filename))) {
@@ -123,7 +120,7 @@ public class Message {
                 $list.add($m);
             }
         } catch (IOException e) {
-            // file may not exist yet; that's fine
+          
         }
         return $list.toArray(new Message[0]);
     }
