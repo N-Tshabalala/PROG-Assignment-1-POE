@@ -87,8 +87,7 @@ public class MessageManager {
     public String searchByMessageID(String $id) {
         for (int i = 0; i < $idCount; i++) {
             if ($messageIDs[i] != null && $messageIDs[i].equals($id)) {
-                // try to find in sentMessages (match by index position when possible)
-                // search sent messages for index i (approx)
+                
                 for (int s = 0; s < $sentCount; s++) {
                     if ($messageIDs[s].equals($id)) {
                         String $rec = ($recipients[s] != null) ? $recipients[s] : "UNKNOWN";
@@ -107,7 +106,7 @@ public class MessageManager {
         return "";
     }
 
-    // d) Search for all messages sent to a particular recipient (returns array of message texts)
+    // Search for all messages sent to a particular recipient 
     public String[] searchAllByRecipient(String $recipient) {
         java.util.ArrayList<String> $list = new java.util.ArrayList<>();
         // check sentMessages
@@ -116,14 +115,14 @@ public class MessageManager {
                 $list.add($sentMessages[i]);
             }
         }
-        // check stored JSON (it contains stored messages)
+        // check stored JSON 
         Message[] $stored = Message.readStoredFromJSON($jsonFile);
         for (Message $m : $stored) {
             if ($m != null && $m.$recipient.equals($recipient)) {
                 $list.add($m.$messageText);
             }
         }
-        // also check storedMessages array (in-memory)
+        // check storedMessages array 
         for (int i = 0; i < $storedCount; i++) {
             int $idx = $sentCount + $disregardedCount + i;
             if ($recipients[$idx] != null && $recipients[$idx].equals($recipient)) {
@@ -133,7 +132,7 @@ public class MessageManager {
         return $list.toArray(new String[0]);
     }
 
-    // Delete a message using message hash (returns true when deletion succeeded)
+    // Delete a message using message hash 
     public boolean deleteByHash(String $hash) {
         // find hash in messageHashes array
         for (int i = 0; i < $hashCount; i++) {
@@ -141,12 +140,12 @@ public class MessageManager {
                 // remove from messageHashes and shift arrays for consistent state
                 removeIndex($messageHashes, i, $hashCount);
                 $hashCount--;
-                // also remove corresponding id if exists at same index
+                // remove corresponding id if exists at same index
                 if (i < $idCount) {
                     String $idToDelete = $messageIDs[i];
                     removeIndex($messageIDs, i, $idCount);
                     $idCount--;
-                    // also remove from stored JSON file by rewriting without that ID
+                    // remove from stored JSON file by rewriting without that ID
                     removeIdFromJson($idToDelete);
                 }
                 // remove from text arrays if found there 
@@ -178,7 +177,7 @@ public class MessageManager {
                         return true;
                     }
                 }
-                // otherwise we succeeded by removing ID/hash but couldn't find text; still return true
+                
                 return true;
             }
         }
@@ -197,7 +196,7 @@ public class MessageManager {
     private int countMinusOne(int c) { return c - 1; }
     private int countSafe(int c) { return c < 0 ? 0 : c; }
 
-    // Remove ID line from JSON file by rewriting file skipping lines that contain the ID
+    // Remove ID line from JSON file 
     private void removeIdFromJson(String $idToDelete) {
         if ($idToDelete == null || $idToDelete.isEmpty()) return;
         java.util.ArrayList<String> $lines = new java.util.ArrayList<>();
@@ -279,3 +278,4 @@ public class MessageManager {
         } catch (IOException ex) {}
     }
 }
+
